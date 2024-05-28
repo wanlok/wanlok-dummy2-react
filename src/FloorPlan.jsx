@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 function FloorPlan() {
   const divRef = useRef(null);
-  useEffect(() => {
+  useEffect(function () {
     var camera = new THREE.PerspectiveCamera(
       75,
       window.innerWidth / window.innerHeight,
@@ -30,11 +30,22 @@ function FloorPlan() {
     camera.position.z = 8;
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
+    var dragging = false;
+    var startDragging = function () {
+      dragging = true;
+    };
+    controls.addEventListener("start", startDragging);
+    var endDragging = function () {
+      dragging = false;
+    };
+    controls.addEventListener("end", endDragging);
     // controls.touches.ONE = THREE.TOUCH.PAN; controls.touches.TWO = THREE.TOUCH.DOLLY_ROTATE;
     var animate = function () {
       requestAnimationFrame(animate);
-      cube.rotation.x += 0.01;
-      cube.rotation.y += 0.01;
+      if (!dragging) {
+        cube.rotation.x += 0.01;
+        cube.rotation.y += 0.01;
+      }
       renderer.render(scene, camera);
     };
     animate();
@@ -44,8 +55,10 @@ function FloorPlan() {
       renderer.setSize(window.innerWidth, window.innerHeight);
     };
     window.addEventListener("resize", resize);
-    return () => {
+    return function () {
       window.removeEventListener("resize", resize);
+      controls.removeEventListener("end", endDragging);
+      controls.removeEventListener("start", startDragging);
       if (divRef.current) {
         // divRef.current.removeEventListener("mousewheel", zoom);
         divRef.current.removeChild(renderer.domElement);

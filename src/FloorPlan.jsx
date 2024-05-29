@@ -49,7 +49,7 @@ function FloorPlan() {
       // var zoom = function (event) {
       //   camera.position.z += event.deltaY / 240;
       // };
-      if (divRef.current) {
+      if (divRef.current && divRef.current.children && divRef.current.children.length == 0) {
         divRef.current.appendChild(renderer.domElement);
         // divRef.current.addEventListener("mousewheel", zoom);
       }
@@ -96,9 +96,10 @@ function FloorPlan() {
         window.removeEventListener("resize", resize);
         controls.removeEventListener("end", endDragging);
         controls.removeEventListener("start", startDragging);
-        if (divRef.current) {
-          // divRef.current.removeEventListener("mousewheel", zoom);
-          divRef.current.removeChild(renderer.domElement);
+        if (divRef.current && divRef.current.children) {
+          while (divRef.current.children.length > 0) {
+            divRef.current.removeChild(renderer.domElement);
+          }
         }
         renderer.dispose();
       };

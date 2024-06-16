@@ -15,9 +15,13 @@ function GitHubUser({ login }) {
       })
       .catch(console.error);
   }, []);
-
   if (data) {
-    return <div><h1>{data.login}</h1><img src={data.avatar_url} width={100} /></div>;
+    return (
+      <div>
+        <h1>{data.login}</h1>
+        <img src={data.avatar_url} width={100} />
+      </div>
+    );
   }
 }
 

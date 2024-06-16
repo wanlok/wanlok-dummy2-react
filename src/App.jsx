@@ -1,18 +1,23 @@
 import "./App.css";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 function GitHubUser({ login }) {
   const [data, setData] = useState(null);
   useEffect(() => {
-    fetch(`https://api.github.com/useres/${login}`)
-      .then((res) => res.json())
-      .then(setData)
+    fetch(`https://api.github.com/users/${login}`)
+      .then((res) => {
+        const json = res.json();
+        return json;
+      })
+      .then((data) => {
+        setData(data);
+      })
       .catch(console.error);
   }, []);
 
   if (data) {
-    return <div>{JSON.stringify(data)}</div>;
+    return <div><h1>{data.login}</h1><img src={data.avatar_url} width={100} /></div>;
   }
 }
 

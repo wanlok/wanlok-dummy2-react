@@ -28,7 +28,7 @@ function GitHubUser({ login }) {
 function App() {
   return (
     <>
-      <GitHubUser login="wanlok" />
+      <div>Hello World</div>
     </>
   );
 }

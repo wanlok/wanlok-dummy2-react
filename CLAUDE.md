@@ -11,6 +11,11 @@ npm run lint      # ESLint (zero warnings allowed)
 npm run preview   # preview production build
 ```
 
+## Code Style
+
+- Always use multi-line formatting. Never condense declarations onto a single line (e.g. CSS rules, object literals).
+- Avoid external CSS files. Document-level styles (e.g. `body`) go in the `<style>` tag in `index.html`. Component styles use inline styles or CSS-in-JS.
+
 ## Architecture
 
 React 18 + Vite project. Entry point is `src/main.jsx`, which renders `<App />`.
